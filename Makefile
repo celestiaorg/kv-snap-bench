@@ -1,12 +1,24 @@
-plots=snapshots.png
+.PHONY: run
 
-all: kv-snap-bench $(plots)
+plots=snapshot.png compaction.png block.png
+
+all: kv-snap-bench
+
+run: stats/RocksDB $(plots)
+
+stats/RocksDB:
+	./kv-snap-bench
 
 kv-snap-bench: *.go go.mod go.sum
 	go build
 
-stats/RocksDB_snapshot.csv: stats/RocksDB
-	grep "snapshot" stats/RocksDB > stats/RocksDB_snapshot.csv
+stats/RocksDB_%.csv: stats/RocksDB
+	grep "$*" stats/RocksDB > $@
 
-snapshots.png: snapshots.plt stats/RocksDB_snapshot.csv
-	gnuplot snapshots.plt
+%.plt: template.plt
+	sed -e 's/PLOT_TITLE/$*/g' template.plt > $*.plt
+
+%.png: %.plt stats/RocksDB_%.csv
+	gnuplot $*.plt
+
+

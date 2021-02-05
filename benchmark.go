@@ -106,25 +106,34 @@ func main() {
 			insertInitialData(kv, maxKey, data)
 		})
 
-		for b := 1; b <= nBlocks; b++ {
-			log.Println("simulating block", b)
-			data = randomValues(2 * opsPerBlock)
-			stats.measure(kv.Name(), "block", b, func() {
-				// update existing values
-				for i := 0; i < opsPerBlock; i++ {
-					key := rand.Intn(maxKey)
-					kv.Set(hash(key), data[i])
-				}
-				// insert new values
-				for i := 0; i < opsPerBlock; i++ {
-					key := maxKey + i
-					kv.Set(hash(key), data[opsPerBlock+i])
-				}
-			})
+		block := 1
+		for r := 1; r <= nRounds; r++ {
+			log.Printf("simulation round: %d/%d, number of blocks: %d\n", r, nRounds, nBlocks)
+			for b := 1; b <= nBlocks; b++ {
+				log.Println("simulating block", block)
+				data = randomValues(2 * opsPerBlock)
+				stats.measure(kv.Name(), "block", block, func() {
+					// update existing values
+					for i := 0; i < opsPerBlock; i++ {
+						key := rand.Intn(maxKey)
+						kv.Set(hash(key), data[i])
+					}
+					// insert new values
+					for i := 0; i < opsPerBlock; i++ {
+						key := maxKey + i
+						kv.Set(hash(key), data[opsPerBlock+i])
+					}
+				})
 
-			log.Println("creating snapshot")
-			stats.measure(kv.Name(), "snapshot", b, func() {
-				kv.CommitVersion(uint64(b))
+				log.Println("creating snapshot")
+				stats.measure(kv.Name(), "snapshot", block, func() {
+					kv.CommitVersion(uint64(block))
+				})
+				block++
+			}
+			log.Println("compacting database")
+			stats.measure(kv.Name(), "compaction", r, func() {
+				kv.Compact()
 			})
 		}
 
