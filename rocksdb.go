@@ -2,12 +2,16 @@ package main
 
 import (
 	"log"
+	"os"
+	"path/filepath"
+	"strconv"
 
 	"github.com/tecbot/gorocksdb"
 )
 
 type RocksKV struct {
 	db        *gorocksdb.DB
+	path      string
 	ro        *gorocksdb.ReadOptions
 	wo        *gorocksdb.WriteOptions
 	snapshots map[uint64]*gorocksdb.Snapshot
@@ -22,6 +26,7 @@ func newRocksKV() *RocksKV {
 }
 
 func (r *RocksKV) Open(path string, cache uint64) error {
+	r.path = path
 	bbto := gorocksdb.NewDefaultBlockBasedTableOptions()
 	bbto.SetBlockCache(gorocksdb.NewLRUCache(cache))
 	opts := gorocksdb.NewDefaultOptions()
@@ -66,13 +71,21 @@ func (r *RocksKV) Compact() {
 	r.db.CompactRange(gorocksdb.Range{})
 }
 
-func (r *RocksKV) CommitVersion(v uint64) {
-	r.snapshots[v] = r.db.NewSnapshot()
+func (r *RocksKV) CommitVersion(v uint64) error {
+	cp, err := r.db.NewCheckpoint()
+	if err != nil {
+		return err
+	}
+	return cp.CreateCheckpoint(r.getCheckpointDir(v), 0)
 }
 
-func (r *RocksKV) RemoveVersion(v uint64) {
-	r.db.ReleaseSnapshot(r.snapshots[v])
-	delete(r.snapshots, v)
+func (r *RocksKV) RemoveVersion(v uint64) error {
+	os.RemoveAll(r.getCheckpointDir(v))
+	return nil
+}
+
+func (r *RocksKV) getCheckpointDir(v uint64) string {
+	return filepath.Join(r.path, "checkpoint"+strconv.FormatUint(v, 10))
 }
 
 func (r *RocksKV) GetAt(v uint64, key []byte) []byte {
