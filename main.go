@@ -26,6 +26,8 @@ func main() {
 	stores := []KV{
 		newRocksKV(),
 		&BadgerKV{},
+		newSMT(newRocksKV()),
+		newSMT(&BadgerKV{}),
 	}
 
 	stats := newStats(stores)
@@ -85,7 +87,7 @@ func main() {
 
 		log.Println("cleaning up")
 		stats.flush()
-		os.RemoveAll(dir)
+		//os.RemoveAll(dir)
 		log.Println("all done for", kv.Name())
 	}
 

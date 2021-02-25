@@ -1,6 +1,9 @@
 plots=snapshot.png compaction.png block.png
 
-all: kv-snap-bench
+all: kv-snap-bench 
+
+clean:
+	rm -rf tmp/* stats/* *.png kv-snap-bench
 
 run: stats/RocksDB stats/badger $(plots)
 

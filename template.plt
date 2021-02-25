@@ -10,7 +10,7 @@ set ylabel "Time [ns]"
 plot 'stats/RocksDB_PLOT_TITLE.csv' u 2:3 w l t 'RocksDB', \
  'stats/badger_PLOT_TITLE.csv' u 2:3 w l t 'badger'
 
-set output 'PLOT_TITLE_SIZE.png'
+set output 'PLOT_TITLE_size.png'
 
 set title "PLOT_TITLE size"
 set xlabel "Block number"
