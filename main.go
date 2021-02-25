@@ -10,7 +10,7 @@ import (
 var (
 	// TODO(tdybal): configuration
 	cache       = uint64(128 * 1024 * 1024) // smaller value ensures that disk is used more
-	nRounds     = 5
+	nRounds     = 2
 	nBlocks     = 1000
 	opsPerBlock = 2000
 	maxKey      = 1_000_000

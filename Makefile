@@ -1,4 +1,4 @@
-plots=snapshot.png compaction.png block.png
+plots=snapshot.png block.png compaction.png 
 
 all: kv-snap-bench 
 
@@ -7,8 +7,7 @@ clean:
 
 run: stats/RocksDB stats/badger $(plots)
 
-stats/RocksDB stats/badger:
-	./kv-snap-bench
+plot: $(plots)
 
 kv-snap-bench: *.go go.mod go.sum
 	go build
@@ -19,8 +18,15 @@ stats/RocksDB_%.csv: stats/RocksDB
 stats/badger_%.csv: stats/badger
 	grep "$*" stats/badger > $@
 
+stats/smt_RocksDB_%.csv: stats/smt_RocksDB
+	grep "$*" stats/smt_RocksDB > $@
+
+stats/smt_badger_%.csv: stats/smt_badger
+	grep "$*" stats/smt_badger > $@
+
+
 %.plt: template.plt
 	sed -e 's/PLOT_TITLE/$*/g' template.plt > $*.plt
 
-%.png: %.plt stats/RocksDB_%.csv stats/badger_%.csv
+%.png: %.plt stats/RocksDB_%.csv stats/badger_%.csv stats/smt_RocksDB_%.csv stats/smt_badger_%.csv
 	gnuplot $*.plt
