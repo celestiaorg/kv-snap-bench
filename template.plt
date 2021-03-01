@@ -24,6 +24,6 @@ set autoscale
 
 plot 'stats/smt_RocksDB_PLOT_TITLE.csv' u 2:5 w l t 'SMT on RocksDB' , \
  'stats/smt_badger_PLOT_TITLE.csv' u 2:5 w l t 'SMT on badger' , \
- 'stats/iavl_PLOT_TITLE.csv' u 2:5 w l t 'IAVL+' ,
-# 'stats/RocksDB_PLOT_TITLE.csv' u 2:5 w l t 'RocksDB' smooth bezier, \
-# 'stats/badger_PLOT_TITLE.csv' u 2:5 w l t 'badger' smooth bezier, \
+ 'stats/iavl_PLOT_TITLE.csv' u 2:5 w l t 'IAVL+' , \
+ 'stats/RocksDB_PLOT_TITLE.csv' u 2:5 w l t 'RocksDB' smooth bezier, \
+ 'stats/badger_PLOT_TITLE.csv' u 2:5 w l t 'badger' smooth bezier, \

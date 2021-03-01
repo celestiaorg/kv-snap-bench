@@ -28,7 +28,7 @@ func (i *IAVL) Open(path string, cache uint64) error {
 	if err != nil {
 		return err
 	}
-	t, err := iavl.NewMutableTreeWithOpts(db, int(cache), &iavl.Options{InitialVersion: 0})
+	t, err := iavl.NewMutableTreeWithOpts(db, int(cache/1024), &iavl.Options{InitialVersion: 0})
 	if err != nil {
 		return err
 	}
