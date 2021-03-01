@@ -10,7 +10,7 @@ import (
 var (
 	// TODO(tdybal): configuration
 	cache       = uint64(128 * 1024 * 1024) // smaller value ensures that disk is used more
-	nRounds     = 2
+	nRounds     = 5
 	nBlocks     = 1000
 	opsPerBlock = 2000
 	maxKey      = 1_000_000
@@ -24,11 +24,11 @@ func main() {
 	log.Println("Starting KV-store versioning benchmark")
 
 	stores := []KV{
-		//newRocksKV(),
-		//&BadgerKV{},
+		newRocksKV(),
+		&BadgerKV{},
 		&IAVL{},
-		//newSMT(newRocksKV()),
-		//newSMT(&BadgerKV{}),
+		newSMT(newRocksKV()),
+		newSMT(&BadgerKV{}),
 	}
 
 	stats := newStats(stores)
