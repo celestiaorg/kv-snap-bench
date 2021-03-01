@@ -24,9 +24,12 @@ stats/smt_RocksDB_%.csv: stats/smt_RocksDB
 stats/smt_badger_%.csv: stats/smt_badger
 	grep "$*" stats/smt_badger > $@
 
+stats/iavl_%.csv: stats/IAVL
+	grep "$*" stats/IAVL > $@
+
 
 %.plt: template.plt
 	sed -e 's/PLOT_TITLE/$*/g' template.plt > $*.plt
 
-%.png: %.plt stats/RocksDB_%.csv stats/badger_%.csv stats/smt_RocksDB_%.csv stats/smt_badger_%.csv
+%.png: %.plt stats/RocksDB_%.csv stats/badger_%.csv stats/smt_RocksDB_%.csv stats/smt_badger_%.csv stats/iavl_%.csv
 	gnuplot $*.plt

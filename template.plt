@@ -9,7 +9,8 @@ set xlabel "Block number"
 set ylabel "Time [ns]"
 
 plot 'stats/smt_RocksDB_PLOT_TITLE.csv' u 2:3 w l t 'SMT on RocksDB' smooth bezier, \
- 'stats/smt_badger_PLOT_TITLE.csv' u 2:3 w l t 'SMT on badger' smooth bezier,
+ 'stats/smt_badger_PLOT_TITLE.csv' u 2:3 w l t 'SMT on badger' smooth bezier, \
+ 'stats/iavl_PLOT_TITLE.csv' u 2:3 w l t 'IAVL+' smooth bezier,
 # 'stats/RocksDB_PLOT_TITLE.csv' u 2:3 w l t 'RocksDB' smooth bezier, \
 # 'stats/badger_PLOT_TITLE.csv' u 2:3 w l t 'badger' smooth bezier, \
 
@@ -22,6 +23,7 @@ set ylabel "Size [GiB]"
 set autoscale
 
 plot 'stats/smt_RocksDB_PLOT_TITLE.csv' u 2:5 w l t 'SMT on RocksDB' , \
- 'stats/smt_badger_PLOT_TITLE.csv' u 2:5 w l t 'SMT on badger' ,
+ 'stats/smt_badger_PLOT_TITLE.csv' u 2:5 w l t 'SMT on badger' , \
+ 'stats/iavl_PLOT_TITLE.csv' u 2:5 w l t 'IAVL+' ,
 # 'stats/RocksDB_PLOT_TITLE.csv' u 2:5 w l t 'RocksDB' smooth bezier, \
 # 'stats/badger_PLOT_TITLE.csv' u 2:5 w l t 'badger' smooth bezier, \

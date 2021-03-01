@@ -24,10 +24,11 @@ func main() {
 	log.Println("Starting KV-store versioning benchmark")
 
 	stores := []KV{
-		newRocksKV(),
-		&BadgerKV{},
-		newSMT(newRocksKV()),
-		newSMT(&BadgerKV{}),
+		//newRocksKV(),
+		//&BadgerKV{},
+		&IAVL{},
+		//newSMT(newRocksKV()),
+		//newSMT(&BadgerKV{}),
 	}
 
 	stats := newStats(stores)
