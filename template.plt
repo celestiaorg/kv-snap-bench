@@ -21,7 +21,7 @@ unset logscale y
 set ylabel "Size [GiB]"
 set autoscale
 
-plot 'stats/smt_RocksDB_PLOT_TITLE.csv' u 2:5 w l t 'SMT on RocksDB' smooth bezier, \
- 'stats/smt_badger_PLOT_TITLE.csv' u 2:5 w l t 'SMT on badger' smooth bezier,
+plot 'stats/smt_RocksDB_PLOT_TITLE.csv' u 2:5 w l t 'SMT on RocksDB' , \
+ 'stats/smt_badger_PLOT_TITLE.csv' u 2:5 w l t 'SMT on badger' ,
 # 'stats/RocksDB_PLOT_TITLE.csv' u 2:5 w l t 'RocksDB' smooth bezier, \
 # 'stats/badger_PLOT_TITLE.csv' u 2:5 w l t 'badger' smooth bezier, \
